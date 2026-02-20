@@ -8,8 +8,18 @@ import { z } from "zod";
 export const SessionSchema = z.object({
     title: z.string().min(5, "عنوان الجلسة يجب أن يكون 5 أحرف على الأقل"),
     workspaceId: z.string().uuid("معرف مساحة العمل غير صالح"),
-    techniqueType: z.enum(["classic", "brainwriting", "reverse", "scamper", "six_hats", "swot"]),
-    settings: z.record(z.any()).optional(),
+    techniqueType: z.enum([
+        "classic",
+        "brainwriting",
+        "reverse",
+        "starbursting",
+        "stepladder",
+        "six_hats",
+        "scamper",
+        "worst_idea",
+        "electronic",
+    ]),
+    settings: z.record(z.string(), z.unknown()).optional(),
 });
 
 /**

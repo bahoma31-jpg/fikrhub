@@ -3,12 +3,12 @@
  * @interface ApiResponse
  * @description التنسيق الموحد لكافة ردود الـ API في المشروع لضمان اتساق التعامل مع الواجهة الأمامية.
  */
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     success: boolean;
     data?: T;
     error?: string;
     code?: string; // رمز الخطأ لسهولة المعالجة (مثلاً: NOT_FOUND)
-    details?: any; // تفاصيل إضافية خاصة بالأخطاء مثل أخطاء التحقق من Zod
+    details?: Record<string, unknown>; // تفاصيل إضافية خاصة بالأخطاء مثل أخطاء التحقق من Zod
 }
 
 /**

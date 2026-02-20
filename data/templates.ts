@@ -112,7 +112,11 @@ export const TEMPLATES_DATA: TemplateData[] = [
             steps: [
                 { title: "استبدل (Substitute)", description_ar: "تغيير جزء من الفكرة.", questions: ["ماذا لو استبدلنا المادة/الجمهور/العملية؟"] },
                 { title: "ادمج (Combine)", description_ar: "دمجها مع فكرة أخرى.", questions: ["هل يمكن دمج خدمتين في واحدة؟"] },
-                { title: "تكيف (Adapt)", description_ar: "استعارة حل من سياق آخر.", questions: ["كيف تم حل هذا في مجال مختلف؟"] }
+                { title: "تكيف (Adapt)", description_ar: "استعارة حل من سياق آخر.", questions: ["كيف تم حل هذا في مجال مختلف؟"] },
+                { title: "عدّل (Modify)", description_ar: "تغيير الحجم، الشكل، أو اللون.", questions: ["هل يمكن التكبير/التصغير؟", "ماذا لو غيرنا اللون؟"] },
+                { title: "استخدم لغرض آخر (Put to other use)", description_ar: "استخدام الفكرة في سياق مختلف تماماً.", questions: ["من يمكنه استخدام هذا بطريقة مختلفة؟", "هل هناك فئة أخرى تستفيد؟"] },
+                { title: "احذف (Eliminate)", description_ar: "تبسيط الفكرة بحذف الأجزاء غير الضرورية.", questions: ["ما الذي يمكننا الاستغناء عنه؟", "كيف نجعلها أبسط؟"] },
+                { title: "اعكس (Reverse)", description_ar: "قلب العملية أو الترتيب.", questions: ["ماذا لو فعلنا العكس؟", "هل يمكن تغيير ترتيب الخطوات؟"] }
             ]
         }
     },
