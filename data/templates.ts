@@ -94,7 +94,7 @@ export const TEMPLATES_DATA: TemplateData[] = [
         structure: {
             steps: [
                 { title: "القبعة البيضاء", description_ar: "الحقائق والأرقام.", questions: ["ما هي المعلومات المتوفرة لدينا؟"] },
-                { title: "القبعة الحمراء", description_ار: "المشاعر والحدس.", questions: ["ما هو شعورك تجاه هذه الفكرة؟"] },
+                { title: "القبعة الحمراء", description_ar: "المشاعر والحدس.", questions: ["ما هو شعورك تجاه هذه الفكرة؟"] },
                 { title: "القبعة السوداء", description_ar: "المخاطر والحذر.", questions: ["ما الذي قد لا ينجح؟"] },
                 { title: "القبعة الصفراء", description_ar: "الفوائد والتفاؤل.", questions: ["لماذا هذه الفكرة رائعة؟"] },
                 { title: "القبعة الخضراء", description_ar: "الإبداع والبدائل.", questions: ["كيف نطورها بطريقة غير تقليدية؟"] },
