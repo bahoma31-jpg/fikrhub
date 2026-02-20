@@ -27,7 +27,6 @@ export function formatDate(date: Date | string | number): string {
             dateStyle: "long",
         }).format(d);
     } catch (error) {
-        // نكتفي بإرجاع القيمة الأصلية بدلاً من كسر الواجهة
         return String(date);
     }
 }
@@ -69,5 +68,6 @@ export function generateId(length: number = 10): string {
  * @returns الرابط الكامل.
  */
 export function absoluteUrl(path: string) {
-    return `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}${path}`;
+    const url = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    return `${url}${path.startsWith("/") ? path : `/${path}`}`;
 }
