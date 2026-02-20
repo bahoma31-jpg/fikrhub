@@ -1,18 +1,40 @@
-// ملف: types/api.types.ts — هيكلية رد الـ API الموحدة
+// ملف: types/api.types.ts — هيكلية رد الـ API والتحقق
 /**
  * @interface ApiResponse
- * @description التنسيق الموحد لكافة ردود الـ API في المشروع.
+ * @description التنسيق الموحد لكافة ردود الـ API في المشروع لضمان اتساق التعامل مع الواجهة الأمامية.
  */
 export interface ApiResponse<T = any> {
     success: boolean;
     data?: T;
     error?: string;
-    details?: any;
+    code?: string; // رمز الخطأ لسهولة المعالجة (مثلاً: NOT_FOUND)
+    details?: any; // تفاصيل إضافية خاصة بالأخطاء مثل أخطاء التحقق من Zod
 }
 
-export type PaginatedResponse<T> = ApiResponse<{
-    items: T[];
-    total: number;
-    page: number;
-    limit: number;
-}>;
+/**
+ * @interface PaginatedResponse
+ * @description هيكلية الرد للبيانات التي تدعم الصفحات.
+ */
+export interface PaginatedResponse<T> {
+    success: boolean;
+    data: {
+        items: T[];
+        meta: {
+            total: number;
+            page: number;
+            limit: number;
+            totalPages: number;
+        };
+    };
+    error?: string;
+}
+
+/**
+ * @type ApiError
+ * @description تعريف نوع الخطأ الموحد.
+ */
+export type ApiError = {
+    message: string;
+    status: number;
+    code?: string;
+};

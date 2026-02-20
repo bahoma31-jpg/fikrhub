@@ -1,14 +1,34 @@
-// ملف: types/user.types.ts — أنواع المستخدمين والمصادقة
+// ملف: types/user.types.ts — أنواع مستخدمي المنصة
 import { users } from "@/db/schema/users";
-import { authSessions, accounts } from "@/db/schema/auth";
+import { userStats } from "@/db/schema/user-stats";
 
+/**
+ * @type User
+ * @description نوع المستخدم الكامل المستنبط من القاعدة.
+ */
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
-export type Account = typeof accounts.$inferSelect;
-export type NewAccount = typeof accounts.$inferInsert;
+/**
+ * @enum UserRole
+ * @description الأدوار المتاحة للمستخدمين في النظام.
+ */
+export enum UserRole {
+    USER = "user",
+    ADMIN = "admin",
+    MODERATOR = "moderator"
+}
 
-export type AuthSession = typeof authSessions.$inferSelect;
-export type NewAuthSession = typeof authSessions.$inferInsert;
+/**
+ * @type PublicUser
+ * @description نسخة للمستخدم قابلة للعرض العام (بدون بيانات حساسة كالبريد أو الهاش).
+ */
+export type PublicUser = Omit<User, "email" | "passwordHash" | "emailVerified">;
 
-export type UserRole = "user" | "admin";
+/**
+ * @interface UserWithStats
+ * @description بيانات المستخدم مقترنة بإحصائياته المجمعة.
+ */
+export interface UserWithStats extends User {
+    stats?: typeof userStats.$inferSelect;
+}
