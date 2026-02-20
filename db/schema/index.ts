@@ -1,7 +1,6 @@
 // ملف: db/schema/index.ts — التصدير المركزي لجميع الجداول والعلاقات
 export * from "./users";
 export * from "./workspaces";
-export * from "./auth";
 export * from "./sessions";
 export * from "./ideas";
 export * from "./ratings";

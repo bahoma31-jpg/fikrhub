@@ -8,7 +8,6 @@ import { comments } from "./comments";
 import { sessions } from "./sessions";
 import { subscriptions } from "./subscriptions";
 import { userStats } from "./user-stats";
-import { accounts, authSessions } from "./auth";
 import { templates } from "./templates";
 
 /**
@@ -23,8 +22,6 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     sessions: many(sessions),
     subscription: one(subscriptions, { fields: [users.id], references: [subscriptions.userId] }),
     stats: one(userStats, { fields: [users.id], references: [userStats.userId] }),
-    accounts: many(accounts),
-    authSessions: many(authSessions),
     createdTemplates: many(templates),
 }));
 

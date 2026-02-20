@@ -4,6 +4,7 @@
 
 ## 🔴 مشاكل حرجة (High Priority)
 - [ ] إتمام ربط Stripe ويب-هوك (Webhook) لتحديث الاشتراكات تلقائياً.
+- [ ] **A2 (Auth Agent):** إنشاء جداول المصادقة (accounts, auth_sessions, verification_tokens) حيث تم حذفها من نطاق A1.
 
 ## 🟡 تحسينات (Improvements)
 - [ ] تحسين أداء البحث الدلالي باستخدام فهرس HNSW بدلاً من IVFFlat.
