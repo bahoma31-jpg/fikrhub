@@ -1,0 +1,22 @@
+export const DUAS = [
+    { arabicText: "اللهم إني أسألك علماً نافعاً، ورزقاً طيباً، وعملاً متقبلاً", context: "success" },
+    { arabicText: "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً", context: "patience" },
+    { arabicText: "يا حي يا قيوم برحمتك أستغيث، أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين", context: "motivation" },
+    { arabicText: "اللهم انفعني بما علمتني، وعلمني ما ينفعني، وزدني علماً", context: "success" },
+    { arabicText: "رَبِّ زِدْنِي عِلْمًا", context: "success" },
+    { arabicText: "اللهم إني أعوذ بك من العجز والكسل، والجبن والهرم والبخل", context: "motivation" },
+    { arabicText: "رَبِّ اشْرَحْ لِي صَدْرِي * وَيَسِّرْ لِي أَمْرِي", context: "patience" },
+    { arabicText: "حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم", context: "motivation" },
+    { arabicText: "اللهم إني أسألك الهدى والتقى والعفاف والغنى", context: "success" },
+    { arabicText: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", context: "success" },
+    { arabicText: "اللهم لك الحمد كله، اللهم لا قابض لما بسطت، ولا باسط لما قبضت", context: "success" },
+    { arabicText: "اللهم إني أعوذ بك من زوال نعمتك، وتحول عافيتك، وفجاءة نقمتك", context: "patience" },
+    { arabicText: "اللهم رحمتك أرجو فلا تكلني إلى نفسي طرفة عين", context: "motivation" },
+    { arabicText: "اللهم زدنا ولا تنقصنا، وأكرمنا ولا تهنا، وأعطنا ولا تحرمنا", context: "success" },
+    { arabicText: "اللهم إني أعوذ بك من ضيق الدنيا وضيق يوم القيامة", context: "patience" },
+    { arabicText: "اللهم إني أسألك من الخير كله عاجله وآجله ما علمت منه وما لم أعلم", context: "success" },
+    { arabicText: "اللهم فارج الهم، كاشف الغم، مجيب دعوة المضطرين", context: "patience" },
+    { arabicText: "اللهم إني أسألك العافية في الدنيا والآخرة", context: "success" },
+    { arabicText: "اللهم اجعل في قلبي نوراً، وفي بصري نوراً، وفي سمعي نوراً", context: "success" },
+    { arabicText: "اللهم مصرف القلوب صرف قلوبنا على طاعتك", context: "motivation" }
+];
