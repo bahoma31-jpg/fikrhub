@@ -68,6 +68,9 @@ export function generateId(length: number = 10): string {
  * @returns الرابط الكامل.
  */
 export function absoluteUrl(path: string) {
-    const url = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    return `${url}${path.startsWith("/") ? path : `/${path}`}`;
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    // التأكد من عدم تكرار الفواصل المائلة
+    const cleanBaseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    return `${cleanBaseUrl}${cleanPath}`;
 }
