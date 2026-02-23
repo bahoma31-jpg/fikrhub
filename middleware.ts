@@ -15,22 +15,20 @@ export default auth(async (req) => {
   const isDashboard = pathname.startsWith("/dashboard");
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
-  // auth wrapper يضيف خواص مثل token/session على الطلب (تتباين حسب التكوين)،
-  // فنستخدم وجود token كمؤشر على تسجيل الدخول.
-  // نستخدم any لأن الشكل يختلف بين الإصدارات، وتحقق حقيقي يتم أثناء التشغيل.
-  const token = (req as any).token;
+  // استخدام req.auth?.user كمؤشر على حالة تسجيل الدخول
+  const isLoggedIn = !!req.auth?.user;
 
-  if (!token && isDashboard) {
+  if (!isLoggedIn && isDashboard) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
   // إذا كان مسجّلًا وحاول الوصول لصفحات التسجيل/تسجيل الدخول → أرسله إلى /dashboard
-  if (token && isAuthPage) {
+  if (isLoggedIn && isAuthPage) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   // خلاف ذلك، اسمح بالوصول الطبيعي
-  return;
+  return NextResponse.next();
 });
 
 // matcher: نحمي واجهة الـ Dashboard وصفحات الدخول/تسجيل المستخدم
