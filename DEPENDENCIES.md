@@ -10,6 +10,7 @@
 - **@auth/drizzle-adapter**: محول Drizzle لنظام NextAuth.
 - **zustand**: إدارة الحالة العالمية (State Management).
 - **zod**: التحقق من صحة المدخلات.
+- **bcryptjs**: تشفير كلمات المرور — بديل bcrypt بدون native build (pure JavaScript).
 - **dotenv**: إدارة متغيرات البيئة.
 - **react-hook-form**: إدارة نماذج الإدخال (Forms).
 - **@hookform/resolvers**: ربط Zod مع React Hook Form.
