@@ -51,44 +51,41 @@ export default function RegisterPage(): JSX.Element {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md mx-4">
-        <CardHeader>
-          <CardTitle>إنشاء حساب</CardTitle>
-          <CardDescription>املأ البيانات لإنشاء حساب جديد</CardDescription>
-        </CardHeader>
-        <CardContent className="py-4">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <Input placeholder="الاسم" {...register('name')} />
-              {errors.name ? <p className="text-sm text-destructive">{errors.name.message}</p> : null}
-            </div>
+    <>
+      <CardHeader>
+        <CardTitle>إنشاء حساب</CardTitle>
+        <CardDescription>املأ البيانات لإنشاء حساب جديد</CardDescription>
+      </CardHeader>
 
-            <div>
-              <Input placeholder="البريد الإلكتروني" type="email" {...register('email')} />
-              {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
-            </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div>
+          <Input placeholder="الاسم" {...register('name')} />
+          {errors.name ? <p className="text-sm text-destructive">{errors.name.message}</p> : null}
+        </div>
 
-            <div>
-              <Input placeholder="كلمة المرور" type="password" {...register('password')} />
-              {errors.password ? <p className="text-sm text-destructive">{errors.password.message}</p> : null}
-            </div>
+        <div>
+          <Input placeholder="البريد الإلكتروني" type="email" {...register('email')} />
+          {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
+        </div>
 
-            <div>
-              <Input placeholder="تأكيد كلمة المرور" type="password" {...register('confirmPassword')} />
-              {errors.confirmPassword ? <p className="text-sm text-destructive">{errors.confirmPassword.message}</p> : null}
-            </div>
+        <div>
+          <Input placeholder="كلمة المرور" type="password" {...register('password')} />
+          {errors.password ? <p className="text-sm text-destructive">{errors.password.message}</p> : null}
+        </div>
 
-            <div className="flex flex-col gap-2">
-              <Button type="submit" disabled={isSubmitting}>سجّل</Button>
-            </div>
-          </form>
+        <div>
+          <Input placeholder="تأكيد كلمة المرور" type="password" {...register('confirmPassword')} />
+          {errors.confirmPassword ? <p className="text-sm text-destructive">{errors.confirmPassword.message}</p> : null}
+        </div>
 
-          <div className="mt-4 text-sm">
-            لديك حساب؟ <Link href="/login" className="text-primary">سجّل الدخول</Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+        <div className="flex flex-col gap-2">
+          <Button type="submit" disabled={isSubmitting}>سجّل</Button>
+        </div>
+      </form>
+
+      <div className="mt-4 text-sm">
+        لديك حساب؟ <Link href="/login" className="text-primary">سجّل الدخول</Link>
+      </div>
+    </>
   );
 }

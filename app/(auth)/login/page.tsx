@@ -33,45 +33,41 @@ export default function LoginPage(): JSX.Element {
 
   async function onSubmit(values: LoginForm) {
     const res = await signIn("credentials", { redirect: false, email: values.email, password: values.password });
-    if (res && (res as any).error) {
-      setError("password", { message: (res as any).error });
+    if (res?.error) {
+      // عرض خطأ مرتبط بحقل كلمة المرور
+      setError("password", { message: res.error as string });
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md mx-4">
-        <CardHeader>
-          <CardTitle>تسجيل الدخول</CardTitle>
-          <CardDescription>ادخل بياناتك لتسجيل الدخول</CardDescription>
-        </CardHeader>
-        <CardContent className="py-4">
-          {errorFromParams ? (
-            <div className="text-sm text-destructive mb-4">{errorFromParams}</div>
-          ) : null}
+    <>
+      <CardHeader>
+        <CardTitle>تسجيل الدخول</CardTitle>
+        <CardDescription>ادخل بياناتك لتسجيل الدخول</CardDescription>
+      </CardHeader>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <Input placeholder="البريد الإلكتروني" type="email" {...register("email")} />
-              {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
-            </div>
+      {errorFromParams ? <div className="text-sm text-destructive mb-4">{errorFromParams}</div> : null}
 
-            <div>
-              <Input placeholder="كلمة المرور" type="password" {...register("password")} />
-              {errors.password ? <p className="text-sm text-destructive">{errors.password.message}</p> : null}
-            </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div>
+          <Input placeholder="البريد الإلكتروني" type="email" {...register("email")} />
+          {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
+        </div>
 
-            <div className="flex flex-col gap-2">
-              <Button type="button" variant="outline" onClick={() => signIn("google")}>تسجيل الدخول بـ Google</Button>
-              <Button type="submit" disabled={isSubmitting}>تسجيل الدخول</Button>
-            </div>
-          </form>
+        <div>
+          <Input placeholder="كلمة المرور" type="password" {...register("password")} />
+          {errors.password ? <p className="text-sm text-destructive">{errors.password.message}</p> : null}
+        </div>
 
-          <div className="mt-4 text-sm">
-            ليس لديك حساب؟ <Link href="/register" className="text-primary">سجّل الآن</Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+        <div className="flex flex-col gap-2">
+          <Button type="button" variant="outline" onClick={() => signIn("google")}>تسجيل الدخول بـ Google</Button>
+          <Button type="submit" disabled={isSubmitting}>تسجيل الدخول</Button>
+        </div>
+      </form>
+
+      <div className="mt-4 text-sm">
+        ليس لديك حساب؟ <Link href="/register" className="text-primary">سجّل الآن</Link>
+      </div>
+    </>
   );
 }
