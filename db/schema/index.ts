@@ -2,6 +2,7 @@
 export * from "./users";
 export * from "./workspaces";
 export * from "./sessions";
+export * from "./auth-tables";
 export * from "./ideas";
 export * from "./ratings";
 export * from "./comments";
