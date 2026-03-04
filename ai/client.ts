@@ -35,12 +35,13 @@ async function retryOperation<T>(operation: () => Promise<T>, retries: number = 
     while (attempt < retries) {
         try {
             return await operation();
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const err = error as Error & { status?: number };
             attempt++;
             if (attempt >= retries) {
-                if (error.message === errors.TIMEOUT) throw error;
-                if (error.message?.includes("fetch failed")) throw new Error(errors.NETWORK_ERROR);
-                if (error.status === 429) throw new Error(errors.QUOTA_EXCEEDED);
+                if (err.message === errors.TIMEOUT) throw err;
+                if (err.message?.includes("fetch failed")) throw new Error(errors.NETWORK_ERROR);
+                if (err.status === 429) throw new Error(errors.QUOTA_EXCEEDED);
                 throw new Error(errors.UNKNOWN);
             }
             const delay = Math.pow(2, attempt) * 1000;
