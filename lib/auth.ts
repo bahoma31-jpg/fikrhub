@@ -1,7 +1,7 @@
 // ملف: lib/auth.ts — NextAuth handler مع DrizzleAdapter للمصادقة
 import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import type { Session } from "next-auth";
+import type { Session, User as NextAuthUser } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import type { DefaultSession } from "next-auth";
 import { eq } from "drizzle-orm";
@@ -45,20 +45,26 @@ const config = {
 
     callbacks: {
         // Callback للـ JWT — يضيف البيانات المخصصة للـ Token
-        async jwt({ token, user }): Promise<JWT> {
+        async jwt({ token, user }: { token: JWT; user?: NextAuthUser }): Promise<JWT> {
             if (user) {
                 // المستخدم جديد أو قادم من authorize()
-                token.id = user.id;
-                // جلب البيانات الإضافية من قاعدة البيانات
-                const [dbUser] = await db
-                    .select()
-                    .from(users)
-                    .where(eq(users.id, user.id as string))
-                    .limit(1);
+                token.id = user.id as string;
+                try {
+                    // جلب البيانات الإضافية من قاعدة البيانات
+                    const [dbUser] = await db
+                        .select()
+                        .from(users)
+                        .where(eq(users.id, user.id as string))
+                        .limit(1);
 
-                if (dbUser) {
-                    token.role = dbUser.role;
-                    // TODO: إضافة حقل subscriptionTier عند إضافة جدول الاشتراكات
+                    if (dbUser) {
+                        token.role = dbUser.role;
+                        // TODO: إضافة حقل subscriptionTier عند إضافة جدول الاشتراكات
+                        token.subscriptionTier = "free";
+                    }
+                } catch (error: unknown) {
+                    // في حالة فشل الاتصال بقاعدة البيانات نستخدم قيم افتراضية
+                    token.role = "user";
                     token.subscriptionTier = "free";
                 }
             }
@@ -67,11 +73,11 @@ const config = {
         },
 
         // Callback للـ Session — ينقل البيانات من Token إلى Session
-        async session({ session, token }): Promise<Session> {
+        async session({ session, token }: { session: Session; token: JWT }): Promise<Session> {
             if (session.user) {
-                session.user.id = token.id as string;
-                session.user.role = token.role as string;
-                session.user.subscriptionTier = token.subscriptionTier as string;
+                session.user.id = token.id;
+                session.user.role = token.role;
+                session.user.subscriptionTier = token.subscriptionTier;
             }
 
             return session;

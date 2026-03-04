@@ -5,19 +5,20 @@ import { users } from "./users";
 /**
  * @table auth_accounts
  * @description جدول ربط مزودي OAuth بحسابات المستخدمين (Google, ...)
+ * الأعمدة بصيغة snake_case لتتوافق مع DrizzleAdapter الافتراضي
  */
 export const auth_accounts = pgTable("auth_accounts", {
-    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    userId: uuid("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
     type: text("type").notNull(),
     provider: text("provider").notNull(),
-    providerAccountId: text("provider_account_id").notNull(),
-    refreshToken: text("refresh_token"),
-    accessToken: text("access_token"),
-    expiresAt: integer("expires_at"),
-    tokenType: text("token_type"),
+    providerAccountId: text("providerAccountId").notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
     scope: text("scope"),
-    idToken: text("id_token"),
-    sessionState: text("session_state"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
 }, (account) => ({
     compositePk: primaryKey({ columns: [account.provider, account.providerAccountId] }),
     userIdx: index("auth_accounts_user_idx").on(account.userId),
@@ -28,8 +29,8 @@ export const auth_accounts = pgTable("auth_accounts", {
  * @description جلسات المصادقة (JWT/session tokens) مرتبطة بالمستخدمين
  */
 export const auth_sessions = pgTable("auth_sessions", {
-    sessionToken: text("session_token").primaryKey(),
-    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    sessionToken: text("sessionToken").primaryKey(),
+    userId: uuid("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
     expires: timestamp("expires", { mode: "date" }).notNull(),
 }, (t) => ({
     userIdx: index("auth_sessions_user_idx").on(t.userId),
@@ -45,8 +46,6 @@ export const auth_verification_tokens = pgTable("auth_verification_tokens", {
     expires: timestamp("expires", { mode: "date" }).notNull(),
 }, (t) => ({
     pk: primaryKey({ columns: [t.identifier, t.token] }),
-    tokenIdx: index("auth_verification_tokens_token_idx").on(t.token),
-    identifierIdx: index("auth_verification_tokens_identifier_idx").on(t.identifier),
 }));
 
 export type AuthAccount = typeof auth_accounts.$inferSelect;

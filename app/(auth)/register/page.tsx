@@ -24,7 +24,7 @@ const registerSchema = z.object({
 
 type RegisterForm = z.infer<typeof registerSchema>;
 
-export default function RegisterPage(): JSX.Element {
+export default function RegisterPage(): React.ReactElement {
   const router = useRouter();
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterForm>({ resolver: zodResolver(registerSchema) });

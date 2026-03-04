@@ -20,7 +20,7 @@ const loginSchema = z.object({
 
 type LoginForm = z.infer<typeof loginSchema>;
 
-export default function LoginPage(): JSX.Element {
+export default function LoginPage(): React.ReactElement {
   const searchParams = useSearchParams();
   const errorFromParams = searchParams?.get("error") ?? undefined;
 
