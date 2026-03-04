@@ -9,6 +9,7 @@ import { evaluateIdea } from "./evaluator";
 import { Idea } from "@/types/idea.types";
 import { TechniqueType } from "@/types/session.types";
 import { PersonaName } from "./types";
+import { logger } from "@/lib/logger";
 
 export interface GenerateParams {
     technique: TechniqueType | string;
@@ -38,7 +39,7 @@ export class AIEngine {
     /**
      * بناء الطلبات لمعالجة التقنية مع عدد محدد من الشخصيات وإرجاع النتائج المجمعة
      */
-    private async generateIdeasConcurrent(params: GenerateParams): Promise<any[]> {
+    private async generateIdeasConcurrent(params: GenerateParams): Promise<Record<string, unknown>[]> {
         const count = params.personaCount || 3;
         const selectedPersonas = this.selectPersonas(count);
         const techniqueKey = params.technique.toLowerCase() as keyof typeof promptBuilders;
@@ -58,12 +59,12 @@ export class AIEngine {
                 const parsed = JSON.parse(cleaned);
 
                 // إرفاق اسم الشخصية مع كل فكرة لغرض التتبع
-                return (parsed.ideas || []).map((idea: any) => ({
+                return (parsed.ideas || []).map((idea: Record<string, unknown>) => ({
                     ...idea,
                     persona: personaName
                 }));
-            } catch (e) {
-                console.error(`Error generating with persona ${personaName}:`, e);
+            } catch (e: unknown) {
+                logger.error(`Error generating with persona ${personaName}:`, e);
                 return [];
             }
         });
@@ -71,7 +72,7 @@ export class AIEngine {
         // تنفيذ متزامن وتجاهل الأخطاء الجزئية
         const results = await Promise.allSettled(promises);
         const allIdeas = results
-            .filter((res): res is PromiseFulfilledResult<any[]> => res.status === "fulfilled")
+            .filter((res): res is PromiseFulfilledResult<Record<string, unknown>[]> => res.status === "fulfilled")
             .map(res => res.value)
             .flat();
 
@@ -106,7 +107,7 @@ export class AIEngine {
      * @param ideas قائمة الأفكار المولدة
      * @returns ReadableStream جاهز للإرسال في الاستجابة
      */
-    private streamResponse(ideas: any[]): ReadableStream {
+    private streamResponse(ideas: Record<string, unknown>[]): ReadableStream {
         const encoder = new TextEncoder();
 
         return new ReadableStream({
@@ -120,7 +121,7 @@ export class AIEngine {
                 }
 
                 // إغلاق الدفق برمز الإغلاق النهائي
-                controller.enqueue(encoder.encode('data: {"type": "done"}\\n\\n'));
+                controller.enqueue(encoder.encode('data: {"type": "done"}\n\n'));
                 controller.close();
             }
         });
@@ -153,8 +154,8 @@ export class AIEngine {
             const cleaned = respText.replace(/```json/g, "").replace(/```/g, "").trim();
             const parsed = JSON.parse(cleaned);
             return parsed.ideas || [];
-        } catch (e) {
-            console.error("Suggestion error:", e);
+        } catch (e: unknown) {
+            logger.error("Suggestion error:", e);
             return [];
         }
     }
