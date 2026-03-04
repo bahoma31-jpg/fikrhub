@@ -1,148 +1,142 @@
-// ملف: data/templates.ts — بيانات القوالب الجاهزة للتقنيات التسع
-/**
- * @file templates.ts
- * @description تعريف القوالب الهيكلية لكل تقنية من تقنيات العصف الذهني التسع.
- */
-
-export interface TemplateData {
+export interface BrainstormingTemplate {
     id: string;
-    name: string;
-    techniqueType: string;
+    nameAr: string;
+    nameEn: string;
     description: string;
-    defaultDuration: number;
-    structure: {
-        steps: {
-            title: string;
-            description_ar: string;
-            questions: string[];
-        }[];
-    };
+    technique: string;
+    prompts: string[];
+    isPro: boolean;
 }
 
-export const TEMPLATES_DATA: TemplateData[] = [
+export const templates: BrainstormingTemplate[] = [
     {
-        id: "tpl_classic",
-        name: "قالب العصف الذهني التقليدي",
-        techniqueType: "classic",
-        description: "الأسلوب الكلاسيكي لتوليد أكبر كم من الأفكار دون قيود.",
-        defaultDuration: 30,
-        structure: {
-            steps: [
-                { title: "تعريف المشكلة", description_ar: "تحديد ما نحاول حله بوضوح.", questions: ["ما هو التحدي الرئيسي؟", "من هو الجمهور المستهدف؟"] },
-                { title: "توليد الأفكار", description_ar: "مرحلة الكم قبل الكيف.", questions: ["اطرح أي فكرة تخطر ببالك.", "كيف يمكن حل هذا بأبسط طريقة؟"] },
-                { title: "التنقية", description_ar: "فلترة الأفكار الواعدة.", questions: ["ما هي أفضل 3 أفكار؟"] }
-            ]
-        }
+        id: 't1',
+        nameAr: 'تطوير منتج جديد',
+        nameEn: 'New Product Development',
+        description: 'قالب كلاسيكي لتوليد أفكار مبدئية لمنتج أو خدمة جديدة.',
+        technique: 'classic',
+        prompts: [
+            'ما هي المشكلة الأساسية التي نريد حلها؟',
+            'من هم جمهورنا المستهدف؟',
+            'كيف يمكننا تقديم قيمة فريدة تميزنا عن المنافسين؟'
+        ],
+        isPro: false,
     },
     {
-        id: "tpl_brainwriting",
-        name: "قالب الكتابة الذهنية 6-3-5",
-        techniqueType: "brainwriting",
-        description: "توليد الأفكار بصمت ثم البناء على أفكار الآخرين.",
-        defaultDuration: 45,
-        structure: {
-            steps: [
-                { title: "الجولة الأولى", description_ar: "كل مشارك يكتب 3 أفكار.", questions: ["اكتب أفكارك الأولى بوضوح."] },
-                { title: "التدوير والبناء", description_ar: "أضف على أفكار زميلك.", questions: ["كيف يمكنك تحسين هذه الفكرة؟", "ما الذي ينقص هذا الحل؟"] }
-            ]
-        }
+        id: 't2',
+        nameAr: 'تحسين ميزة قائمة',
+        nameEn: 'Feature Enhancement',
+        description: 'التركيز على ميزة حالية في منتجك وتوليد أفكار لتطويرها باستخدام تقنية SCAMPER.',
+        technique: 'scamper',
+        prompts: [
+            'كيف يمكننا تبسيط استخدام هذه الميزة؟ (Eliminate/Minimize)',
+            'ما الذي يمكن دمجه مع هذه الميزة لزيادة قيمتها؟ (Combine)',
+            'هل يمكن استخدام هذه الميزة لغرض آخر تماماً؟ (Put to another use)'
+        ],
+        isPro: false,
     },
     {
-        id: "tpl_reverse",
-        name: "قالب العصف الذهني العكسي",
-        techniqueType: "reverse",
-        description: "البحث عن مسببات الفشل لتحويلها إلى عوامل نجاح.",
-        defaultDuration: 40,
-        structure: {
-            steps: [
-                { title: "كيف نفشل؟", description_ar: "تحديد طرق تدمير المشروع.", questions: ["كيف نجعل المستخدم يكره خدمتنا؟", "ما الذي سيؤدي لإفلاسنا؟"] },
-                { title: "قلب الموازين", description_ar: "تحويل المسببات إلى حلول.", questions: ["كيف نمنع كل سبب من أسباب الفشل المذكورة؟"] }
-            ]
-        }
+        id: 't3',
+        nameAr: 'حل مشكلة مستعصية (تقنية العكس)',
+        nameEn: 'Solving Stubborn Problem (Reverse)',
+        description: 'تحليل أسباب الفشل من خلال هندسة المشكلة العكسية للتفكير خارج الصندوق.',
+        technique: 'reverse',
+        prompts: [
+            'كيف يمكننا جعل هذه المشكلة أسوأ بكثير؟',
+            'ما هي الخطوات المضمونة لفشل مشروعنا؟',
+            'بعد معرفة أسباب الفشل، كيف يمكننا عكسها للوصول للحل؟'
+        ],
+        isPro: false,
     },
     {
-        id: "tpl_starbursting",
-        name: "قالب الانفجار النجمي (Starbursting)",
-        techniqueType: "starbursting",
-        description: "التركيز على طرح الأسئلة الشاملة حول الفكرة.",
-        defaultDuration: 45,
-        structure: {
-            steps: [
-                { title: "الأسئلة الستة", description_ar: "طرح أسئلة تبدأ بـ: من، ماذا، متى، أين، لماذا، كيف.", questions: ["من سيستخدمها؟", "لماذا يحتاجونها الآن؟", "كيف سنصل إليهم؟"] }
-            ]
-        }
+        id: 't4',
+        nameAr: 'التخطيط الاستراتيجي السنوي',
+        nameEn: 'Annual Strategic Planning',
+        description: 'استخدام القبعات الست لتحليل استراتيجية الشركة وتحديد الأولويات للسنة القادمة.',
+        technique: 'six_hats',
+        prompts: [
+            'القبعة البيضاء: ما هي الأرقام والبيانات المتاحة لدينا للعام الماضي؟',
+            'القبعة الصفراء: ما هي أكبر الفرص الإيجابية للعام القادم؟',
+            'القبعة السوداء: ما هي المخاطر والتحديات التي يجب أن نستعد لها؟'
+        ],
+        isPro: true,
     },
     {
-        id: "tpl_stepladder",
-        name: "قالب تقنية السلم (Stepladder)",
-        techniqueType: "stepladder",
-        description: "إدخال المشاركين واحداً تلو الآخر لتجنب التفكير الجماعي المنحاز.",
-        defaultDuration: 50,
-        structure: {
-            steps: [
-                { title: "النواة (شخصين)", description_ar: "بدء النقاش بين فردين فقط.", questions: ["ما هي رؤيتكما الأساسية؟"] },
-                { title: "التوسع التدريجي", description_ar: "دخول عضو جديد وعرض فكرته قبل سماع الآخرين.", questions: ["ما هي فكرتك المستقلة؟"] }
-            ]
-        }
+        id: 't5',
+        nameAr: 'إطلاق حملة تسويقية',
+        nameEn: 'Marketing Campaign Launch',
+        description: 'خطوات لكتابة مفاهيم إبداعية لحملة تسويقية وجذب انتباه الجمهور المستهدف.',
+        technique: 'brainwriting',
+        prompts: [
+            'ما هي الرسالة المحورية للحملة في جملة واحدة؟',
+            'اكتب 3 عناوين جذابة للحملة.',
+            'ما هي المنصات الأنسب للترويج ولماذا؟'
+        ],
+        isPro: false,
     },
     {
-        id: "tpl_sixhats",
-        name: "قالب القبعات الست",
-        techniqueType: "sixhats",
-        description: "تحليل الفكرة من 6 زوايا مختلفة ومنظمة.",
-        defaultDuration: 90,
-        structure: {
-            steps: [
-                { title: "القبعة البيضاء", description_ar: "الحقائق والأرقام.", questions: ["ما هي المعلومات المتوفرة لدينا؟"] },
-                { title: "القبعة الحمراء", description_ar: "المشاعر والحدس.", questions: ["ما هو شعورك تجاه هذه الفكرة؟"] },
-                { title: "القبعة السوداء", description_ar: "المخاطر والحذر.", questions: ["ما الذي قد لا ينجح؟"] },
-                { title: "القبعة الصفراء", description_ar: "الفوائد والتفاؤل.", questions: ["لماذا هذه الفكرة رائعة؟"] },
-                { title: "القبعة الخضراء", description_ar: "الإبداع والبدائل.", questions: ["كيف نطورها بطريقة غير تقليدية؟"] },
-                { title: "القبعة الزرقاء", description_ar: "التحكم والتنظيم.", questions: ["ما هي الخطوة القادمة؟"] }
-            ]
-        }
+        id: 't6',
+        nameAr: 'تطوير خطة أزمات',
+        nameEn: 'Crisis Management Planning',
+        description: 'تطبيق تحليل SWOT لتقييم جاهزية المؤسسة للأزمات المحتملة وتحليل نقاط القوة والضعف.',
+        technique: 'swot',
+        prompts: [
+            'نقاط الضعف (Weaknesses): ما الذي ينقصنا لتجاوز الأزمة بشكل أفضل؟',
+            'التهديدات (Threats): ما هي أسوأ السيناريوهات الممكنة؟',
+            'نقاط القوة (Strengths): ما هي الموارد التي نعتمد عليها في الأوقات الصعبة؟'
+        ],
+        isPro: true,
     },
     {
-        id: "tpl_scamper",
-        name: "قالب تقنية SCAMPER",
-        techniqueType: "scamper",
-        description: "تطوير فكرة موجودة عبر 7 استراتيجيات.",
-        defaultDuration: 60,
-        structure: {
-            steps: [
-                { title: "استبدل (Substitute)", description_ar: "تغيير جزء من الفكرة.", questions: ["ماذا لو استبدلنا المادة/الجمهور/العملية؟"] },
-                { title: "ادمج (Combine)", description_ar: "دمجها مع فكرة أخرى.", questions: ["هل يمكن دمج خدمتين في واحدة؟"] },
-                { title: "تكيف (Adapt)", description_ar: "استعارة حل من سياق آخر.", questions: ["كيف تم حل هذا في مجال مختلف؟"] },
-                { title: "عدّل (Modify)", description_ar: "تغيير الحجم، الشكل، أو اللون.", questions: ["هل يمكن التكبير/التصغير؟", "ماذا لو غيرنا اللون؟"] },
-                { title: "استخدم لغرض آخر (Put to other use)", description_ar: "استخدام الفكرة في سياق مختلف تماماً.", questions: ["من يمكنه استخدام هذا بطريقة مختلفة؟", "هل هناك فئة أخرى تستفيد؟"] },
-                { title: "احذف (Eliminate)", description_ar: "تبسيط الفكرة بحذف الأجزاء غير الضرورية.", questions: ["ما الذي يمكننا الاستغناء عنه؟", "كيف نجعلها أبسط؟"] },
-                { title: "اعكس (Reverse)", description_ar: "قلب العملية أو الترتيب.", questions: ["ماذا لو فعلنا العكس؟", "هل يمكن تغيير ترتيب الخطوات؟"] }
-            ]
-        }
+        id: 't7',
+        nameAr: 'تحسين تجربة العملاء (CX)',
+        nameEn: 'Customer Experience (CX) Improvement',
+        description: 'توليد أفكار حول كيفية تحويل تجربة العميل من عادية إلى استثنائية.',
+        technique: 'classic',
+        prompts: [
+            'ما هي أكثر الشكاوى شيوعًا بين عملائنا؟',
+            'كيف يمكننا مفاجأة العميل بشكل إيجابي في أول تعامل له معنا؟',
+            'كيف نجعل عملية الدعم الفني أكثر سلاسة؟'
+        ],
+        isPro: false,
     },
     {
-        id: "tpl_worstidea",
-        name: "قالب أسوأ فكرة ممكنة",
-        techniqueType: "worstidea",
-        description: "طرح أسوأ الأفكار لكسر الخوف والوصول لإبداع غير متوقع.",
-        defaultDuration: 30,
-        structure: {
-            steps: [
-                { title: "مرحلة السخافة", description_ar: "طرح أفكار سيئة جداً عمداً.", questions: ["ما هي أكثر فكرة مضحكة أو مستحيلة؟"] },
-                { title: "البحث عن الجوهرة", description_ar: "استخراج شيء مفيد من الفكرة السيئة.", questions: ["ما هو الجزء الصغير الذي يمكن تحويله لشيء عبقري؟"] }
-            ]
-        }
+        id: 't8',
+        nameAr: 'ابتكار نموذج ربح جديد',
+        nameEn: 'New Revenue Model Innovation',
+        description: 'استكشاف بدائل وطرق جديدة لتحقيق الدخل أو خفض التكاليف باستخدام SCAMPER.',
+        technique: 'scamper',
+        prompts: [
+            'هل يمكننا تقديم المنتج كاشتراك شهري بدلاً من الدفع لمرة واحدة؟ (Modify/Adapt)',
+            'ما الذي يمكن الاستغناء عنه لتقليل التكلفة بنسبة 30%؟ (Eliminate)',
+            'هل يمكننا تحويل منتجنا الأساسي إلى خدمة مجانية والربح من خدمات مساعدة؟ (Reverse/Rearrange)'
+        ],
+        isPro: true,
     },
     {
-        id: "tpl_electronic",
-        name: "قالب العصف الذهني الإلكتروني",
-        techniqueType: "electronic",
-        description: "تفاعل لحظي مجهول الهوية وسريع.",
-        defaultDuration: 20,
-        structure: {
-            steps: [
-                { title: "المدخلات السريعة", description_ar: "كتابة سريعة ومجهولة.", questions: ["اكتب أول ما يخطر ببالك الآن."] }
-            ]
-        }
+        id: 't9',
+        nameAr: 'تخطيط فعالية أو مؤتمر',
+        nameEn: 'Event or Conference Planning',
+        description: 'تجميع أفكار لتنظيم حدث ناجح سواء كان حضوريًا أو عبر الإنترنت.',
+        technique: 'brainwriting',
+        prompts: [
+            'ما هو الموضوع الرئيسي (Theme) للفعالية؟',
+            'من هم المتحدثون الذين نتمنى استضافتهم؟',
+            'كيف نجعل الفعالية تفاعلية وتجنب الملل للحضور؟'
+        ],
+        isPro: true,
+    },
+    {
+        id: 't10',
+        nameAr: 'تحليل المنافسين',
+        nameEn: 'Competitor Analysis',
+        description: 'دراسة وتحليل أداء المنافسين وتحديد الفجوات باستخدام تحليل SWOT الموجه.',
+        technique: 'swot',
+        prompts: [
+            'ما هي نقاط القوة التي يتميز بها المنافسون ونفتقر إليها؟',
+            'أين تكمن الفرص المتاحة (الفجوات) في السوق التي لم يستغلها المنافسون؟',
+            'ما التهديدات التي يشكلها دخول منافسين جدد؟'
+        ],
+        isPro: true,
     }
 ];
