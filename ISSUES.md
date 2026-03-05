@@ -9,6 +9,9 @@
 ## 🟡 تحسينات (Improvements)
 - [ ] تحسين أداء البحث الدلالي باستخدام فهرس HNSW بدلاً من IVFFlat.
 - [ ] تعريب رسائل الخطأ الناتجة عن NextAuth.
+- [ ] **A6 (Pages):** تم استخدام بيانات تجريبية (Mock Data) وتعليقات `@ts-expect-error` نظراً لعدم اكتمال الـ Server Actions (A4) والـ Auth (A2).
+- [ ] **A6 (Techniques):** تم إضافة 3 تقنيات إضافية (Mind Mapping, Round Robin, SWOT) لتعزيز القيمة المضافة، بالإضافة للتقنيات الـ 9 المطلوبة.
+- [ ] **A6 (Components):** تم نقل مكون `TechniquesGrid` إلى `components/techniques/` لضمان عزل النطاق البرمجي للواجهات عن الصفحات.
 
 ## ✅ تم الحل (Resolved)
 - [x] إعداد البنية التحتية الأساسية.
