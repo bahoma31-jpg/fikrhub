@@ -5,18 +5,18 @@ import Link from 'next/link';
 import { Play } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'تقنية السلم (Stepladder) | FikrHub',
-  description: 'انضمام تدريجي للأعضاء لضمان استقلالية التفكير',
+  title: 'تحليل SWOT | FikrHub',
+  description: 'نقاط القوة، الضعف، الفرص والتهديدات',
 };
 
 export default function TechniquePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8 p-4 text-foreground font-tajawal">
       <div className="flex items-center gap-4 border-b pb-6">
-        <div className="text-4xl bg-primary/10 p-4 rounded-lg">🪜</div>
+        <div className="text-4xl bg-primary/10 p-4 rounded-lg">📊</div>
         <div>
-          <h1 className="text-4xl font-bold mb-2 text-foreground font-cairo">تقنية السلم (Stepladder)</h1>
-          <p className="text-lg text-muted-foreground font-tajawal">انضمام تدريجي للأعضاء لضمان استقلالية التفكير</p>
+          <h1 className="text-4xl font-bold mb-2 text-foreground font-cairo">تحليل SWOT</h1>
+          <p className="text-lg text-muted-foreground font-tajawal">نقاط القوة، الضعف، الفرص والتهديدات</p>
         </div>
       </div>
 
@@ -41,7 +41,7 @@ export default function TechniquePage() {
 
       <div className="pt-8 text-center">
         <Button size="lg" asChild>
-          <Link href={"/session/new?technique=" + encodeURIComponent('stepladder')}>
+          <Link href={"/session/new?technique=" + encodeURIComponent('swot')}>
             <Play className="ml-2 w-5 h-4" /> بدء الجلسة
           </Link>
         </Button>
