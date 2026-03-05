@@ -18,7 +18,7 @@
 | `agent/A5-ui-components` | `e52593` | — | 🔍 بانتظار مراجعة |
 | `agent/A6-pages` | `cc5492` | — | 🔍 بانتظار مراجعة |
 | `agent/A7-payments` | `4c9841` | — | 🔍 بانتظار مراجعة |
-| `main` | `70ee092` | — | ✅ أُنشئ من A1 |
+| `main` | `169589f` | — | ✅ محدّث + scripts كاملة |
 
 ---
 
@@ -54,17 +54,18 @@
 - [x] `.gitignore` يتجاهل `.env` و `node_modules`
 - [x] `components.json` (Shadcn) موجود
 
-### متطلبات مفقودة في package.json
-- [ ] `typecheck` script غير موجود → يجب إضافة: `"typecheck": "tsc --noEmit"`
-- [ ] `test:e2e` script غير موجود → يجب إضافة: `"test:e2e": "playwright test"`
-- [ ] `lint` script يحتاج تحديد المسار: `"lint": "eslint . --ext .ts,.tsx"`
+### متطلبات package.json
+- [x] ~~`typecheck` script~~ → ✅ أُضيف: `"typecheck": "tsc --noEmit"`
+- [x] ~~`test:e2e` script~~ → ✅ أُضيف: `"test:e2e": "playwright test"`
+- [x] ~~`lint` script~~ → ✅ محدّث: `"lint": "eslint . --ext .ts,.tsx"`
+- [x] `@playwright/test` → ✅ أُضيف في devDependencies
 
 ### إعداد CI/CD
 - [x] `.github/workflows/ci.yml` أُنشئ (Phase 1)
 - [x] `vercel.json` أُنشئ (Phase 1)
 - [x] `playwright.config.ts` أُنشئ (Phase 1)
 
-### متطلبات البيئة
+### متطلبات البيئة (للتنفيذ المحلي)
 - [ ] `.env` محلي مُعَد بالقيم الحقيقية
 - [ ] `DATABASE_URL` متاح (Neon/Supabase)
 - [ ] `NEXTAUTH_SECRET` مُولَّد (`openssl rand -base64 32`)
@@ -87,24 +88,59 @@
 
 ## 📋 الخطوات التالية (بعد هذا التقرير)
 
-1. ⬜ إضافة scripts الناقصة في `package.json`
+1. ✅ ~~إضافة scripts الناقصة في `package.json`~~ → **اكتمل** (commit `169589f`)
 2. ⬜ إعداد `.env` محلياً أو في GitHub Codespaces
 3. ⬜ تشغيل `npm install` للتأكد من المكتبات
-4. ⬜ **`npm run build > build-log.txt 2>&1`** ← نقطة التوقف للتنفيذ المحلي
+4. ⬜ **`npm run build > build-log.txt 2>&1`** ← **نقطة التوقف الحالية**
 5. ⬜ `npm run typecheck >> build-log.txt 2>&1`
 6. ⬜ قراءة `build-log.txt` وتوثيق النتائج هنا
 7. ⬜ البدء بـ Phase 2: Sequential Integration
 
 ---
 
-## 📝 نتائج npm run build (تُملأ لاحقاً)
+## 📝 نتائج npm run build (تُملأ بعد التشغيل المحلي)
 
 ```
-[ سيتم تعبئة هذا القسم بعد تشغيل البناء محلياً أو على Codespaces ]
+[ جاهز للتنفيذ — انتظار البناء على الجهاز المحلي أو Codespaces ]
 
 Build Status:  ___________
 Build Time:    ___________
 Bundle Size:   ___________
 Errors:        ___________
 Warnings:      ___________
+TypeScript:    ___________
+ESLint Score:  ___________
 ```
+
+---
+
+## 💡 ملاحظات التنفيذ
+
+### للتشغيل على Codespaces:
+```bash
+gh codespace create --repo bahoma31-jpg/fikrhub --branch main
+# في الـ terminal:
+cp .env.example .env
+# عدّل .env بالقيم الحقيقية
+npm install
+npm run build > build-log.txt 2>&1
+npm run typecheck >> build-log.txt 2>&1
+cat build-log.txt
+```
+
+### للتشغيل محلياً:
+```bash
+git clone https://github.com/bahoma31-jpg/fikrhub.git
+cd fikrhub
+git checkout main
+cp .env.example .env
+# عدّل .env
+npm install
+npm run build > build-log.txt 2>&1
+npm run typecheck >> build-log.txt 2>&1
+```
+
+### البديل الآلي (GitHub Actions):
+- كل push على `main` يُشغّل CI تلقائياً
+- تحميل `build-log.txt` من: **Actions → Artifacts → build-log**
+- مدة البناء المتوقعة: **5-12 دقيقة** (Cold Build)
