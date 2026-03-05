@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
@@ -34,6 +36,7 @@
     "zustand": "latest"
   },
   "devDependencies": {
+    "@playwright/test": "latest",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pg": "latest",
