@@ -1,0 +1,176 @@
+# GitHub Actions CI/CD — FikrHub
+# يُشغَّل تلقائياً عند كل push على main أو pull_request
+
+name: 🔄 FikrHub CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # ─────────────────────────────────────────
+  # الوظيفة 1: فحص الجودة (بدون DB)
+  # ─────────────────────────────────────────
+  quality:
+    name: 🔍 Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit 2>&1 | tee typecheck-log.txt
+        continue-on-error: true
+
+      - name: ESLint check
+        run: npx eslint . --ext .ts,.tsx --max-warnings 20 2>&1 | tee lint-log.txt
+        continue-on-error: true
+
+      - name: Upload quality logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-logs
+          path: |
+            typecheck-log.txt
+            lint-log.txt
+
+  # ─────────────────────────────────────────
+  # الوظيفة 2: البناء + حفظ build-log.txt
+  # ─────────────────────────────────────────
+  build:
+    name: 🏗️ Build
+    runs-on: ubuntu-latest
+    needs: quality
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        env:
+          # متغيرات وهمية فقط للبناء (بدون DB حقيقي)
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://test:test@localhost:5432/test' }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'ci-test-secret-32-chars-minimum-here' }}
+          NEXTAUTH_URL: 'http://localhost:3000'
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || 'test-key' }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+          NEXT_PUBLIC_APP_URL: 'http://localhost:3000'
+        run: |
+          npm run build > build-log.txt 2>&1
+          echo "Build Exit Code: $?" >> build-log.txt
+
+      - name: Show build summary
+        if: always()
+        run: |
+          echo "=== LAST 30 LINES OF BUILD LOG ==="
+          tail -30 build-log.txt || echo "No build log found"
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build-log.txt
+          retention-days: 30
+
+  # ─────────────────────────────────────────
+  # الوظيفة 3: اختبار Playwright (E2E)
+  # يُشغَّل فقط على main بعد نجاح البناء
+  # ─────────────────────────────────────────
+  e2e:
+    name: 🎭 E2E Tests
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        env:
+          PLAYWRIGHT_BASE_URL: 'http://localhost:3000'
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: 'http://localhost:3000'
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          NEXT_PUBLIC_APP_URL: 'http://localhost:3000'
+        run: npx playwright test
+        continue-on-error: true
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  # ─────────────────────────────────────────
+  # الوظيفة 4: Security Audit
+  # ─────────────────────────────────────────
+  security:
+    name: 🔒 Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=moderate 2>&1 | tee security-audit.txt
+        continue-on-error: true
+
+      - name: Upload security report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit
+          path: security-audit.txt
